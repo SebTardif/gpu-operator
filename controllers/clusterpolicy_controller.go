@@ -453,7 +453,7 @@ func shouldReconcileClusterPolicyOnNodeDeletion(labels map[string]string) bool {
 // SetupWithManager sets up the controller with the Manager.
 func (r *ClusterPolicyReconciler) SetupWithManager(ctx context.Context, mgr ctrl.Manager) error {
 	// Create a new controller
-	c, err := controller.New("clusterpolicy-controller", mgr, controller.Options{Reconciler: r, MaxConcurrentReconciles: 1,
+	c, err := controller.New("clusterpolicy-controller", mgr, controller.Options{Reconciler: state.WithReconcileLog(r), MaxConcurrentReconciles: 1,
 		RateLimiter: workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](minDelayCR, maxDelayCR)})
 	if err != nil {
 		return err
